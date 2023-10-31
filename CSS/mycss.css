@@ -1,0 +1,79 @@
+.info {
+    position:absolute; 
+    left:0px; 
+    width:300px; 
+    height:570px;
+    top:-600px;
+    padding: 6px 8px;
+    text-align:center; 
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: 3px solid rgb(173, 64, 34);
+    z-index: 2;
+    opacity: 1;
+}
+
+.info p {
+    margin-left:50px;
+    text-align:left; 
+    color: rgb(16, 16, 16);
+    font: 18px Arial
+}
+.info h2 {
+    margin-bottom: 20px;
+    min-width:250px;
+}s
+
+.info a {
+    font: 18px 
+}
+
+/* 按国家统计图表 */
+/* #button{
+    position:absolute; 
+    height:600px;
+    width: 316px;
+    height: 50px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(173, 64, 34);
+    text-align: center;
+    line-height: 50px;
+} */
+#countrybar{
+    position:absolute;
+    left:600px;bottom:10px;
+    width:1300px;
+    height:300px;
+    background-color:rgb(255, 255, 255);
+    z-index:-1
+}
+
+#half{
+    background-color:rgb(135, 149, 151);
+    position:absolute;  /*绝对定位*/
+    left:0px;
+    top: 650px;
+    height:55px;    /*设置元素高度*/
+    width: 1900px;
+    text-align:center;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 30px;
+    font-weight: 5;
+    /* font-style: ; */
+    color:rgb(255, 255, 255);  /*设置文字颜色*/
+    z-index:5
+ }
+
+ .span1{
+    position:absolute;  /*绝对定位*/
+    left:570px;
+    top: 730px;
+    padding:12px 6px 230px 6px;
+    /* margin-left: 6px; */
+    border-left: 3px;
+    border-left-style:dotted;
+    /* border-color:black; */
+    z-index:7
+    }
