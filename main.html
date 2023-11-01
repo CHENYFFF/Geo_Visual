@@ -5,12 +5,10 @@
     <title>Document</title>
     <link  href="CSS/leaflet.css" rel="stylesheet">
     <link  href="CSS/mycss.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="CSS/5-1.css"> -->
     <link  href="CSS/leaflet.timedimension.control.css" rel="stylesheet">
     <link  href="CSS/Leaflet.Dialog.css" rel="stylesheet">
 </head>
 <body>
-
     <script src="JS/leaflet-src.js"></script>
     <script src="JS/leaflet.ajax.js"></script>
     <script src="JS/leaflet.ChineseTmsProviders.js"></script>
@@ -19,58 +17,29 @@
     <script src="JS/iso8601.js"></script>
     <script src="JS/leaflet.timedimension.src.js"></script>
     <script src="JS/Leaflet.Dialog.js"></script>
-    <style type="text/css">
-        .legend {
-            color: #555;
-            right: 50px;
-            padding: 6px 8px;
-            font: 12px Arial, Helvetica, sans-serif;
-            font-weight: bold;
-            background: white;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
-        }
-        .legend ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            clear: both;
-        }
-        .legend li {
-            display: inline-block;
-            width: 30px;
-            height: 22px;
-        }
-        .legend .min {
-            float: left;
-            padding-bottom: 5px;
-        }
-        .legend .max {
-            float: right;
-        }
-    </style>
 
-    <div id="mapid" style="position:absolute; left:0px; top:0px; width:1900px; height:650px; background-color:rgb(255, 255, 255);z-index:0 "></div>
-    <div id="bar" style="position:absolute;left:30px;bottom:30px;width:500px;height:270px;background-color:rgb(255, 255, 255);z-index:1"></div>
-    <!-- <div id="button" >按钮</div> -->
+    <div id="mapid" style="position:absolute; left:0px; top:0px; width:100%; height:60%; background-color:rgb(255, 255, 255);z-index:0 "></div>
+    <div id="bar" style="position:absolute;left:10px;bottom:30px;width:30%;height:30%;background-color:rgb(255, 255, 255);z-index:1"></div>
     <div id="countrybar" > </div>
 	<span id="half">
-        Map of Summer and Winter Olympics Host Cities ( 1896 to 2022)
+        <image src='https://olympics.com/images/static/b2p-images/logo_color.svg'style="position:relative;top:10px" ></image>
+        Olympic Games Host Cities Map (1896 to 2022)
     </span>
 
     <span class="span1"></span>
-    <image src='https://olympics.com/images/static/b2p-images/logo_color.svg' style=" position:absolute; left:400px; top: 655px;z-index:6"></image>
->
+    
     <script>
 
-         //限制平移范围
+        // part1 地图框架
+        //限制平移范围
         var corner1 =  L.latLng(-90, -180); //设置左上角经纬度
         var corner2 = L.latLng(90,145);	//设置右下点经纬度
         var bounds = L.latLngBounds(corner1, corner2); //构建视图限制范
 
+        //定义地图
         var myMap=L.map('mapid',{
-            maxBounds:bounds,
+            zoomControl:false,//不向地图添加缩放按钮
+            maxBounds:bounds,//设置移动边界
             timeDimension: true,    //创建一个和地图关联的timeDimension对象
             timeDimensionControl: true,     //时间轴控件
             timeDimensionControlOptions: {  //时间轴属性设置
@@ -85,20 +54,14 @@
         },
         }).setView([27.546618,30.809258],3);
        
-      
-
-        // 1 底图加载
-
-        // L.tileLayer.chinaProvider('Tencent.Terrain.Map',{maxZoom:18,minZoom:2}).addTo(myMap);//this
-        // L.tileLayer.chinaProvider('TianDiTu.Terrain.Map',{maxZoom:18,minZoom:3}).addTo(myMap);
-        // L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg',{maxZoom:18,minZoom:3}).addTo(myMap);
-        // L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png',{maxZoom:18,minZoom:3}).addTo(myMap); //this
-        // L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:18,minZoom:3}).addTo(myMap); //this
+    
+        // 底图加载
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.pngg',{maxZoom:18,minZoom:3}).addTo(myMap);
 
-        
-        //分级颜色
-        function getColor(d) {      
+
+
+        // part2 大洲 面图层
+        function getColor(d) {       //分级颜色
             switch (d) 
             { 
             case "Africa":color='#FAF0E6'; 
@@ -117,9 +80,8 @@
             return color;
           };
 
-        function continentsStyle(feature) {   //分级统计图样式设置
+        function continentsStyle(feature) {   //分层设色图层样式设置
             return {
-                
                 weight: 1,
                 opacity: 1,
                 color: getColor(feature.properties.continent),
@@ -128,15 +90,14 @@
             };
         };
 
-   
-        // 2 大洲图层
+        // 大洲图层加载
         var geojsonLayer = new L.GeoJSON.AJAX("data/continents.geojson",{
             style:continentsStyle,
         });
         geojsonLayer.addTo(myMap)
 
 
-        //增加图例
+        // 增加图例
         var legend = L.control({ position: 'bottomright' });
             legend.onAdd = function (myMap) {
                 var div = L.DomUtil.create('div', 'legend');
@@ -155,58 +116,8 @@
             };
             legend.addTo(myMap);
 
-        //3 主办城市点图层
-        //为冬奥 夏奥设置不同标志
-        var summerIcon = L.icon({
-            iconUrl: 'data/images/火炬.png',   //图标存储地址
-            iconSize: [40, 40],                   //图标大小
-            iconAnchor: [0, 0],                  //图标相对位置
-        });
-        var winterIcon = L.icon({
-            iconUrl: 'data/images/火炬2.png',   //图标存储地址
-            iconSize: [40, 40],                   //图标大小
-            iconAnchor: [0, 0],                  //图标相对位置
-        });
 
-        //鼠标悬停设置
-        function highlightFeature(e) {  //鼠标悬停事件处理函数
-        // console.log("1111")
-        var layer = e.target;   //获取鼠标悬停目标
-        
-        info.update(layer.feature.properties);
-
-        };
-
-        //鼠标点击
-        function zoomToFeature(e) {
-            // console.log(e)
-            myMap.setView([e.latlng.lat,e.latlng.lng],8);
-        }
-        //增加详情显示控件
-        var info = L.control({position:'bottomleft'});
-        info.onAdd = function (myMap) {
-            this._div = L.DomUtil.create('div', 'info'); //创建一个类名为"info"的div元素
-            this.update();
-            return this._div;
-        };
-        // 更新组件内容
-        info.update = function (props) {
-            this._div.innerHTML = '<h2>Details</h2>' 
-            +  (props ?
-            '<p>'+ props.EVENT+' ('+props.YEAR+')</p>' 
-            +'<p>City: ' + props.EN_CITY +'(' + props.CITY + ')</p>' 
-            + '<p>Country: ' + props.EN_COUNTRY+ '</p>'
-            + '<p>Athletes: ' + props.ATHLETES+'</p>'
-            + '<p>Teams: ' + props.TEAMS+'</p>'
-            + '<p>Events: ' + props.EVENTS+'</p>'
-            + '<a href='+ props.WEB + '>More...:'+'</a></br>'
-           +'<img src='+props.IMG+' width=200>'
-            : 'Move your mouse over the icon for details </img>')
-            ;
-        };
-        info.addTo(myMap);
-
-         //4 动画
+         //part3 时间轴动画
         var icon = L.icon({     //图标
         iconUrl: 'data/images/framework-3385_256.gif',
         iconSize: [60,60],
@@ -231,8 +142,6 @@
         });
         movegeojsonLayer.on('data:loaded',function(data){
         var geoJSONTDLayer = L.timeDimension.layer.geoJson(movegeojsonLayer, {
-            // updateTimeDimension: true,//用GeoJSON数据中的时间序列更新时间轴控件上显示的播放时间
-            // duration: '',   //设置为空时，所有之前时间的路径都会显示
             updateTimeDimensionMode: 'replace',//时间处理方式，新时间替代老时间
             addlastPoint: true, //用于增加一个点来自定义运动图标
         });
@@ -241,8 +150,56 @@
         geoJSONTDLayer.addTo(myMap);
     });
         
+        //part4 城市点图层
+        //为冬奥 夏奥设置不同标志
+        var summerIcon = L.icon({
+            iconUrl: 'data/images/火炬.png',   //图标存储地址
+            iconSize: [40, 40],                   //图标大小
+            iconAnchor: [0, 0],                  //图标相对位置
+        });
+        var winterIcon = L.icon({
+            iconUrl: 'data/images/火炬2.png',   //图标存储地址
+            iconSize: [40, 40],                   //图标大小
+            iconAnchor: [0, 0],                  //图标相对位置
+        });
 
+        //鼠标点击
+        function zoomToFeature(e) {
+            // console.log(e)
+            myMap.setView([e.latlng.lat,e.latlng.lng],6);
+        }
 
+        //鼠标悬停
+        function highlightFeature(e) {  //鼠标悬停事件处理函数
+        // console.log("1111")
+        var layer = e.target;   //获取鼠标悬停目标
+        info.update(layer.feature.properties);
+
+        };       
+
+        //增加详情显示控件
+        var info = L.control({position:'topleft'});
+        info.onAdd = function (myMap) {
+            this._div = L.DomUtil.create('div', 'info'); //创建一个类名为"info"的div元素
+            this.update();
+            return this._div;
+        };
+        // 更新组件内容
+        info.update = function (props) {
+            this._div.innerHTML = '<h2>Details</h2>' 
+            +  (props ?
+            '<p>'+ props.EVENT+' ('+props.YEAR+')</p>' 
+            +'<p>City: ' + props.EN_CITY +'(' + props.CITY + ')</p>' 
+            + '<p>Country: ' + props.EN_COUNTRY+ '</p>'
+            + '<p>Athletes: ' + props.ATHLETES+'</p>'
+            + '<p>Teams: ' + props.TEAMS+'</p>'
+            + '<p>Events: ' + props.EVENTS+'</p>'
+            + '<a href='+ props.WEB + '>More...:'+'</a></br>'
+           +'<img src='+props.IMG+' width=200>'
+            : 'Move your mouse over the icon for details </img>')
+            ;
+        };
+        info.addTo(myMap);
 
         //添加冬奥会举办国 点图层
         var winterHostsLayer = new L.GeoJSON.AJAX("data/winterHosts.json",
@@ -253,7 +210,7 @@
                 });
             },            
             onEachFeature: function (feature, layer) {
-            var ele=feature.properties["YEAR"]+" "+feature.properties["CITY"];
+            var ele=feature.properties["YEAR"]+" "+feature.properties["CITY"];//小提示
                     layer.bindTooltip(ele,{
                             sticky:true,
                         }).openTooltip();   //添加鼠标提示
@@ -266,18 +223,16 @@
         });
         winterHostsLayer.addTo(myMap)
 
-         //添加夏季奥运会
+         //添加夏季奥运会  点图层
          var summerHostsLayer = new L.GeoJSON.AJAX("data/summerHosts.json",
         {
             pointToLayer: function (feature, latlng) {
                 return L.marker(latlng, {
                     icon: summerIcon,      //指定图标
-                    // title:"summer",    //鼠标移动到图标上显示字样
-                    // html: feature.properties.CITY
                 });
             },
             onEachFeature: function (feature, layer) {
-            var ele=feature.properties["YEAR"]+" "+feature.properties["CITY"];
+            var ele=feature.properties["YEAR"]+" "+feature.properties["CITY"];//小提示
                 layer.bindTooltip(ele,{
                         sticky:true,
                     }).openTooltip();   //添加鼠标提示
@@ -290,20 +245,19 @@
         summerHostsLayer.addTo(myMap)
 
  
-        //小提示窗
-        // After you've set up your map and layers, add the modal window by running:
+        //part5 时间轴插件的提示窗
+        h=window.innerHeight
         dialog_options={
-            size:[470,60],
-            anchor:[570,350],
+            size:[470,0.06*h],
+            anchor:[0.52*h,350],
             position:'topleft',
             initOpen:true
         }
         var dialog = L.control.dialog(dialog_options)
-              .setContent("<i>This control will hightlight hosts of Olympics chronological.</i>")
+              .setContent("<i>This control will hightlight hosts of Olympics chronologically.</i>")
               .addTo(myMap);
         dialog.showClose();
 
-        
     </script>
     <script src="JS/myBar.js"></script>
     <script src="JS/countryBar.js"></script>
