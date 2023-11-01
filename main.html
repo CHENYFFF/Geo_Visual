@@ -33,7 +33,7 @@
         // part1 地图框架
         //限制平移范围
         var corner1 =  L.latLng(-90, -180); //设置左上角经纬度
-        var corner2 = L.latLng(90,145);	//设置右下点经纬度
+        var corner2 = L.latLng(90,180);	//设置右下点经纬度
         var bounds = L.latLngBounds(corner1, corner2); //构建视图限制范
 
         //定义地图
@@ -52,7 +52,7 @@
             },
             speedSlider:false,  //隐藏速度控制按钮
         },
-        }).setView([27.546618,30.809258],3);
+        }).setView([27.546618,30.809258],2);
        
     
         // 底图加载
