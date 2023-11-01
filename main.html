@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Olympic Games Host Cities Map </title>
+    <title>Document</title>
     <link  href="CSS/leaflet.css" rel="stylesheet">
     <link  href="CSS/mycss.css" rel="stylesheet">
     <link  href="CSS/leaflet.timedimension.control.css" rel="stylesheet">
     <link  href="CSS/Leaflet.Dialog.css" rel="stylesheet">
+    <link  href="CSS/leaflet.legend.css" rel="stylesheet">
 </head>
 <body>
     <script src="JS/leaflet-src.js"></script>
@@ -17,6 +18,7 @@
     <script src="JS/iso8601.js"></script>
     <script src="JS/leaflet.timedimension.src.js"></script>
     <script src="JS/Leaflet.Dialog.js"></script>
+    <script src="JS/leaflet.legend.js"></script>
 
     <div id="mapid" style="position:absolute; left:0px; top:0px; width:100%; height:60%; background-color:rgb(255, 255, 255);z-index:0 "></div>
     <div id="bar" style="position:absolute;left:10px;bottom:30px;width:30%;height:30%;background-color:rgb(255, 255, 255);z-index:1"></div>
@@ -195,7 +197,7 @@
             + '<p>Teams: ' + props.TEAMS+'</p>'
             + '<p>Events: ' + props.EVENTS+'</p>'
             + '<a href='+ props.WEB + '>More...:'+'</a></br>'
-           +'<img src='+props.IMG+' width=140>'
+           +'<img src='+props.IMG+' width=100>'
             : 'Move your mouse over the icon for details </img>')
             ;
         };
@@ -244,7 +246,22 @@
         });
         summerHostsLayer.addTo(myMap)
 
- 
+        //点图例
+        L.control.Legend({
+            column:2,
+            title:" ",
+            position: "topright",
+            legends: [{
+                label: "Summer",
+                type: "image",
+                url: "data/images/火炬.png",
+            },{
+                label: "Winter",
+                type: "image",
+                url: "data/images/火炬2.png",
+            }]
+        }).addTo(myMap);
+
         //part5 时间轴插件的提示窗
         h=window.innerHeight
         dialog_options={
