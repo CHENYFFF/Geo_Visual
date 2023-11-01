@@ -1,9 +1,9 @@
 .info {
-    position:absolute; 
+    position:relative; 
     left:0px; 
-    width:300px; 
-    height:570px;
-    top:-600px;
+    top: 0px;
+    width: 300px; 
+    height:80%;
     padding: 6px 8px;
     text-align:center; 
     font: 14px/16px Arial, Helvetica, sans-serif;
@@ -12,7 +12,7 @@
     border-radius: 5px;
     border: 3px solid rgb(173, 64, 34);
     z-index: 2;
-    opacity: 1;
+    opacity: 0.8;
 }
 
 .info p {
@@ -43,9 +43,9 @@
 } */
 #countrybar{
     position:absolute;
-    left:600px;bottom:10px;
-    width:1300px;
-    height:300px;
+    right:20px;bottom:30px;
+    width:60%;
+    height:30%;
     background-color:rgb(255, 255, 255);
     z-index:-1
 }
@@ -53,10 +53,11 @@
 #half{
     background-color:rgb(135, 149, 151);
     position:absolute;  /*绝对定位*/
+    /* margin:5px; */
     left:0px;
-    top: 650px;
-    height:55px;    /*设置元素高度*/
-    width: 1900px;
+    top: 60%;
+    height:7%;    /*设置元素高度*/
+    width: 100%;
     text-align:center;
     font-family: "Comic Sans MS", cursive, sans-serif;
     font-size: 30px;
@@ -68,12 +69,43 @@
 
  .span1{
     position:absolute;  /*绝对定位*/
-    left:570px;
-    top: 730px;
-    padding:12px 6px 230px 6px;
+    left:33%;
+    top: 70%;
+    padding:12px 6px 25% 6px;
     /* margin-left: 6px; */
     border-left: 3px;
     border-left-style:dotted;
     /* border-color:black; */
     z-index:7
+    }
+
+
+    .legend {
+        color: #555;
+        right: 50px;
+        padding: 6px 8px;
+        font: 12px Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .legend ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        clear: both;
+    }
+    .legend li {
+        display: inline-block;
+        width: 30px;
+        height: 22px;
+    }
+    .legend .min {
+        float: left;
+        padding-bottom: 5px;
+    }
+    .legend .max {
+        float: right;
     }
