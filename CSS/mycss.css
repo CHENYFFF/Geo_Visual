@@ -20,6 +20,7 @@
     margin-left:50px;
     text-align:left; 
     font-size: 16px ,
+    font-weight:2px,
     font-family: "Comic Sans MS", cursive, sans-serif;
 }
 .info h2 {
@@ -72,7 +73,7 @@
     position:absolute;  /*绝对定位*/
     left:33%;
     top: 70%;
-    padding:12px 6px 25% 6px;
+    padding:12px 6px 15% 6px;
     /* margin-left: 6px; */
     border-left: 3px;
     border-left-style:dotted;
